@@ -1,0 +1,1 @@
+SELECT * FROM trivia_questions
