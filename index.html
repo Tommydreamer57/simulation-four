@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html ng-app="trivia">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title>Trivia Trends</title>
+  <link rel="shortcut icon" href="/styles/assets/crownFavicon.png">
+</head>
+
+<body ng-controller="homeController" >
+  <header>
+    <div></div>
+    <h1>Trivia Trends</h1>
+    <button ng-click="toggleModal({})" >
+      <span>+</span> Add Question</button>
+  </header>
+  <article>
+    <nav >
+      <a ng-click="setFilter('')" >All Questions</a>
+      <a ng-click="setFilter(1)" >Easy</a>
+      <a ng-click="setFilter(2)" >Medium</a>
+      <a ng-click="setFilter(3)" >Hard</a>
+      <a ng-click="toggleSearch()" >Search by Animal</a>
+    </nav>
+    <div class="{{search ? 'search' : 'search hide'}}" >
+      <input ng-model="animal" type="text" placeholder="Animal to search by">
+    </div>
+
+    <ui-view></ui-view>
+
+    <!-- Questions go here -->
+    <div class="question-box">
+      <div class="question-wrapper {{question.class}}" ng-repeat="question in questions | filter: animal" ng-model="question">
+        <h3>{{question.question}}</h3><div class="{{question.difficulty === 1 ? 'Easy' : question.difficulty === 2 ? 'Medium' : question.difficulty === 3 ? 'Hard' : ''}}">{{question.difficulty === 1 ? 'Easy' : question.difficulty === 2 ? 'Medium' : question.difficulty === 3 ? 'Hard' : ''}} </div><div class="gear" ng-click="toggleModal(question)" ><img src="/styles/assets/gear.svg"/></div>
+        <ul>
+          <li class="{{question.chosen == option ? 'chosen' : ''}}" ng-repeat="option in question.options" ng-click="selectOption(question, option)">{{option}}</li>
+        </ul>
+      </div>
+    </div>
+
+
+
+  </article>
+  
+  <div class="{{modal ? 'modal' : 'hide'}}">
+    <form>
+      <h4 ng-click="toggleModal({})" class="close">X</h4>
+      <span>Question</span><input type="text" ng-model="selectedQuestion.question">
+      <span>Animal it's about</span><input type="text" ng-model="selectedQuestion.animal">
+      <span>Difficulty</span>
+      <div class="range">
+        <input type="range" min="1" max="3" ng-model="selectedQuestion.difficulty">
+
+        <h5>{{selectedQuestion.difficulty === 1 ? 'Easy' : selectedQuestion.difficulty === 2 ? 'Medium' : selectedQuestion.difficulty === 3 ? 'Hard' : ''}}</h5>
+      </div>
+      <h4>Options</h4>
+      <div>
+        <input type="radio" ng-model="selectedQuestion.correct_answer" value="1">
+        <input type="text" ng-model="selectedQuestion.options[1]">
+      </div>
+      <div>
+        <input type="radio" ng-model="selectedQuestion.correct_answer" value="2">
+        <input type="text" ng-model="selectedQuestion.options[2]">
+      </div>
+      <div>
+        <input type="radio" ng-model="selectedQuestion.correct_answer" value="3">
+        <input type="text" ng-model="selectedQuestion.options[3]">
+      </div>
+      <div>
+        <input type="radio" ng-model="selectedQuestion.correct_answer" value="4">
+        <input type="text" ng-model="selectedQuestion.options[4]">
+      </div>
+
+  <!--Add question buttons-->
+  <div class="{{!selectedQuestion._id ? 'buttons' : 'hide'}}">
+    <button class="Easy" ng-click="postQuestion()">Save Question</button>
+    <button ng-click="toggleModal({})" >Cancel</button>
+  </div>
+
+  <!--Edit & Delete question buttons-->
+
+  <div class="{{selectedQuestion._id ? 'buttons' : 'hide'}}">
+    <button class="Hard" ng-click="deleteQuestion()" >Delete Question</button>
+    <button class="Easy" ng-click="updateQuestion()" >Save Changes</button>
+    <button ng-click="toggleModal({})" >Cancel</button>
+  </div>
+
+  </form>
+  </div>
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js" charset="utf-8"></script>
+  <script src="app.js" charset="utf-8"></script>
+  <script src="home/homeController.js" charset="utf-8"></script>
+  <script src="home/homeService.js" charset="utf-8"></script>
+
+  <script src="optionController.js" charset="utf-8"></script>
+
+</body>
+
+</html>
