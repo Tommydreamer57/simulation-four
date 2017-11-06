@@ -1,4 +1,4 @@
-UPDATE trivia-questions
+UPDATE trivia_questions
 SET animal = $2,
     correct_answer = $3,
     date_entered = CURRENT_TIMESTAMP,

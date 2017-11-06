@@ -1,3 +1,3 @@
-angular.module('angular').controller('optionController', function () {
+angular.module('trivia').controller('optionController', function () {
     
 })
