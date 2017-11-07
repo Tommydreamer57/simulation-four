@@ -47,10 +47,16 @@ angular.module('trivia').controller('homeController', function ($scope, homeServ
         console.log(question)
         $scope.modal = !$scope.modal
         $scope.selectedQuestion = Object.assign({}, question)
+        console.log('it worked')
+        if (!$scope.selectedQuestion || !$scope.selectedQuestion.options) {
+            console.log('options')
+            $scope.selectedQuestion.options = []
+        }
     }
 
 
     $scope.postQuestion = function () {
+        console.log($scope.selectedQuestion)
         homeService.postQuestion($scope.selectedQuestion)
             .then(response => {
                 console.log(response.data)
@@ -60,6 +66,7 @@ angular.module('trivia').controller('homeController', function ($scope, homeServ
     }
 
     $scope.updateQuestion = function () {
+        console.log($scope.selectedQuestion)        
         homeService.updateQuestion($scope.selectedQuestion)
             .then(response => {
                 console.log(response.data)
@@ -69,6 +76,7 @@ angular.module('trivia').controller('homeController', function ($scope, homeServ
     }
 
     $scope.deleteQuestion = function () {
+        console.log($scope.selectedQuestion)        
         homeService.deleteQuestion($scope.selectedQuestion)
             .then(response => {
                 console.log(response.data)

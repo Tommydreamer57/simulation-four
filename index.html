@@ -70,19 +70,19 @@
       </div>
       <h4>Options</h4>
       <div>
-        <input type="radio" ng-model="selectedQuestion.correct_answer" value="0">
+        <input type="radio" ng-checked="selectedQuestion.correct_answer === 0" ng-model="selectedQuestion.correct_answer" value="0">
         <input type="text" ng-model="selectedQuestion.options[0]">
       </div>
       <div>
-        <input type="radio" ng-model="selectedQuestion.correct_answer" value="1">
+        <input type="radio" ng-checked="selectedQuestion.correct_answer === 1" ng-model="selectedQuestion.correct_answer" value="1">
         <input type="text" ng-model="selectedQuestion.options[1]">
       </div>
       <div>
-        <input type="radio" ng-model="selectedQuestion.correct_answer" value="2">
+        <input type="radio" ng-checked="selectedQuestion.correct_answer === 2" ng-model="selectedQuestion.correct_answer" value="2">
         <input type="text" ng-model="selectedQuestion.options[2]">
       </div>
       <div>
-        <input type="radio" ng-model="selectedQuestion.correct_answer" value="3">
+        <input type="radio" ng-checked="selectedQuestion.correct_answer === 3" ng-model="selectedQuestion.correct_answer" value="3">
         <input type="text" ng-model="selectedQuestion.options[3]">
       </div>
 
