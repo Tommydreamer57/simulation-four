@@ -1,0 +1,19 @@
+{
+  "name": "simulation-4",
+  "version": "1.0.0",
+  "description": "<img src=\"https://devmounta.in/img/logowhiteblue.png\" width=\"250\" align=\"right\">",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tommydreamer57/simulation-four.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tommydreamer57/simulation-four/issues"
+  },
+  "homepage": "https://github.com/Tommydreamer57/simulation-four#readme"
+}
