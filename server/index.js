@@ -3,15 +3,17 @@ const bodyParser = require('body-parser');
 const massive = require('massive');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
 
 const PORT = process.env.PORT || 3002;
 const CONNECTION_STRING = process.env.CONNECTION_STRING || ``;
 
 const app = express();
 
-massive(CONNECTION_STRING)
-    .then(db => app.set('db', db));
+massive(CONNECTION_STRING).then(db => app.set('db', db));
 
+
+app.use(express.static(`${__dirname}/../index.html`))
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -51,6 +53,11 @@ app.delete(`/api/questions/:id`, (req, res, next) => {
         })
 })
 
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'))
+})
 
 
 app.listen(PORT, () => console.log(`trivia running on port ${PORT}`))
