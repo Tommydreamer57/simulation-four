@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Tommydreamer57/simulation-four/issues"
   },
-  "homepage": "https://github.com/Tommydreamer57/simulation-four#readme"
+  "homepage": "https://github.com/Tommydreamer57/simulation-four#readme",
+  "dependencies": {
+    "ng-factory": "^1.1.0"
+  }
 }

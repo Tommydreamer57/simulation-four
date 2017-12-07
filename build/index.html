@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html ng-app="trivia">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/styles/reset.css">
+    <link rel="stylesheet" href="./styles/main.css">
+    <title>Trivia Trends</title>
+    <link rel="shortcut icon" href="/styles/assets/crownFavicon.png">
+    <style>
+        html,
+        body,
+        div,
+        span,
+        applet,
+        object,
+        iframe,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        blockquote,
+        pre,
+        a,
+        abbr,
+        acronym,
+        address,
+        big,
+        cite,
+        code,
+        del,
+        dfn,
+        em,
+        img,
+        ins,
+        kbd,
+        q,
+        s,
+        samp,
+        small,
+        strike,
+        strong,
+        sub,
+        sup,
+        tt,
+        var,
+        b,
+        u,
+        i,
+        center,
+        dl,
+        dt,
+        dd,
+        ol,
+        ul,
+        li,
+        fieldset,
+        form,
+        label,
+        legend,
+        table,
+        caption,
+        tbody,
+        tfoot,
+        thead,
+        tr,
+        th,
+        td,
+        article,
+        aside,
+        canvas,
+        details,
+        embed,
+        figure,
+        figcaption,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        output,
+        ruby,
+        section,
+        summary,
+        time,
+        mark,
+        audio,
+        video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        /* HTML5 display-role reset for older browsers */
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+
+        body {
+            line-height: 1;
+        }
+
+        ol,
+        ul {
+            list-style: none;
+        }
+
+        blockquote,
+        q {
+            quotes: none;
+        }
+
+        blockquote:before,
+        blockquote:after,
+        q:before,
+        q:after {
+            content: '';
+            content: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+        *,
+        h1,
+        a,
+        body {
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+        }
+
+        header {
+            font-weight: bold;
+            height: 15vh;
+            text-align: center;
+            background: rgb(218, 45, 123);
+            padding: 2em;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: #eee;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        header button {
+            background: rgb(1, 206, 241);
+            border: none;
+            padding: .75rem;
+            font-size: 1.15rem;
+            border-radius: 1px;
+            cursor: pointer;
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translate(0, -50%);
+            display: flex;
+            align-items: center;
+        }
+
+        header button span {
+            font-size: 2em;
+            padding: 0;
+            margin: 0;
+            margin-right: .45rem;
+            line-height: .75;
+        }
+
+        header button:hover {
+            opacity: .85;
+        }
+
+        nav {
+            width: 100%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            height: 3rem;
+            margin-bottom: 12px;
+        }
+
+        nav a {
+            padding: .5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgb(1, 206, 241);
+            cursor: pointer;
+            flex: 1;
+        }
+
+        nav a:nth-child(1n+1) {
+            border-left: .25px solid #eee;
+        }
+
+        nav a:hover {
+            opacity: .85;
+        }
+
+        article {
+            width: 50%;
+            max-width: 1200px;
+            min-height: 85vh;
+            margin: auto;
+            background: #ededed;
+            padding-bottom: 7vh;
+        }
+
+        .question-wrapper {
+            width: 95%;
+            margin: auto;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #fff;
+            box-shadow: 1px 1px 1px rgba(134, 134, 134, 0.52);
+        }
+
+        .question-wrapper:hover {
+            transform: translate(0, -1.5px);
+            box-shadow: 2.5px 2.5px 2.5px rgba(134, 134, 134, 0.52);
+        }
+
+        .question-wrapper h3 {
+            float: left;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            max-width: 78%;
+        }
+
+        .question-wrapper>div {
+            float: right;
+            padding: 3px;
+            border-radius: 2px;
+        }
+
+        div.gear {
+            height: 1.5rem;
+            width: 1.5rem;
+            padding: 0;
+            margin-right: .25rem;
+            cursor: pointer;
+            transition: all .5s;
+        }
+
+        div.gear:hover {
+            transform: rotate(90deg);
+            opacity: .85;
+        }
+
+        .gear img {
+            transform: translateY(-1.5rem);
+            height: 100%;
+        }
+
+        .question-wrapper ul {
+            clear: both;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        ul li {
+            width: 40%;
+            margin-bottom: 1rem;
+            margin-right: 1rem;
+            text-align: justify;
+            padding: .5em;
+        }
+
+        label {
+            padding: .5rem;
+            line-height: 1.15rem;
+        }
+
+        li input {
+            float: left;
+        }
+
+        ul li:hover {
+            cursor: pointer;
+        }
+
+        ul li label:hover,
+        input:hover+label {
+            opacity: .65;
+        }
+
+        label,
+        input[type="radio"],
+        input[type="range"] {
+            cursor: pointer;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            background: rgba(88, 88, 88, 0.55);
+            display: flex;
+            /* display: none; ALERTDELETEME - REMOVE THIS line only WHEN STYLING THE MODAL */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal>form {
+            background: #eee;
+            width: 50%;
+            max-width: 1000px;
+            border-radius: 2px;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal form>.close {
+            position: absolute;
+            font-size: 1.5em;
+            top: 1rem;
+            right: 1.5em;
+            width: 1rem;
+            color: #777;
+            cursor: pointer;
+        }
+
+        .modal form input {
+            margin: .5rem 0;
+            padding: .5em;
+            border: none;
+        }
+
+        .modal input[type="radio"]+input[type=text] {
+            width: calc(100% - 1.35em)
+        }
+
+        input[type="range"] {
+            max-width: 200px;
+        }
+
+        .modal form .range {
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .modal .buttons {
+            margin-top: 1rem;
+        }
+
+        .modal form button {
+            padding: .5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search {
+            padding: 0 22px;
+            margin-bottom: 12px;
+        }
+
+        .search input {
+            border: none;
+            padding: .5em;
+            width: 100%;
+        }
+
+        .change-page {
+            cursor: pointer;
+            text-decoration: underline;
+            color: rgb(1, 206, 241);
+            margin: 0 12px;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .Easy,
+        d1 {
+            background: rgb(89, 189, 117);
+        }
+
+        .Medium,
+        d2 {
+            background: rgb(213, 211, 70);
+        }
+
+        .Hard,
+        d3 {
+            background: rgb(218, 45, 123);
+        }
+
+        .chosen {
+            background: rgba(121, 121, 121, 0.43);
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body ng-controller="homeController">
+    <header>
+        <div></div>
+        <h1>Trivia Trends</h1>
+        <button ng-click="toggleModal({})">
+            <span>+</span> Add Question</button>
+    </header>
+    <article>
+        <nav>
+            <a ng-click="setFilter('')">All Questions</a>
+            <a ng-click="setFilter(1)">Easy</a>
+            <a ng-click="setFilter(2)">Medium</a>
+            <a ng-click="setFilter(3)">Hard</a>
+            <a ng-click="toggleSearch()">Search by Animal</a>
+        </nav>
+        <div class="{{search ? 'search' : 'search hide'}}">
+            <input ng-model="animal" type="text" placeholder="Animal to search by">
+        </div>
+
+        <ui-view></ui-view>
+
+        <!-- Questions go here -->
+        <div class="question-box">
+            <div class="question-wrapper {{question.class}}" ng-repeat="question in questions | filter: animal" ng-model="question">
+                <h3>
+                    {{question.question}}
+                </h3>
+                <div class="{{question.difficulty === 1 ? 'Easy' : question.difficulty === 2 ? 'Medium' : question.difficulty === 3 ? 'Hard' : ''}}">
+                    {{question.difficulty === 1 ? 'Easy' : question.difficulty === 2 ? 'Medium' : question.difficulty === 3 ? 'Hard' : ''}}
+                </div>
+                <div class="gear" ng-click="toggleModal(question)">
+                    <?xml version="1.0" encoding="utf-8"?>
+                    <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        width="100%" height="100%" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+                        <path fill="#777" d="M445.52,215h-29.934c-3.903-15-9.922-29.443-17.675-42.547l21.231-21.282c6.438-6.436,6.438-16.895,0-23.331l-34.96-34.972
+                    	c-6.434-6.436-16.87-6.442-23.304-0.006l-21.332,21.23C326.443,106.339,312,100.315,297,96.415V66.48
+                    	c0-9.101-7.179-16.48-16.28-16.48h-49.44C222.179,50,215,57.379,215,66.48v29.935c-15,3.9-29.443,9.921-42.547,17.675
+                    	l-21.282-21.232c-6.436-6.438-16.895-6.438-23.331,0l-34.972,34.96c-6.436,6.434-6.442,16.87-0.006,23.304l21.23,21.332
+                    	C106.337,185.557,100.315,200,96.415,215H66.48C57.379,215,50,222.179,50,231.28v49.44c0,9.102,7.379,16.28,16.48,16.28h29.935
+                    	c3.9,15,9.921,29.443,17.675,42.547l-21.234,21.282c-6.436,6.434-6.436,16.895,0,23.328l34.96,34.973
+                    	c6.436,6.438,16.87,6.444,23.306,0.007l21.332-21.229C185.557,405.661,200,411.683,215,415.586v29.934
+                    	c0,9.102,7.179,16.48,16.28,16.48h49.44c9.102,0,16.28-7.379,16.28-16.48v-29.934c15-3.903,29.443-9.922,42.547-17.675
+                    	l21.282,21.231c6.434,6.438,16.895,6.438,23.328,0l34.973-34.96c6.438-6.434,6.444-16.87,0.007-23.304l-21.229-21.332
+                    	C405.661,326.443,411.683,312,415.586,297h29.934c9.102,0,16.48-7.179,16.48-16.28v-49.44C462,222.179,454.621,215,445.52,215z
+                    	 M256,338.4c-45.509,0-82.4-36.892-82.4-82.4c0-45.509,36.891-82.4,82.4-82.4c45.509,0,82.4,36.891,82.4,82.4
+                    	C338.4,301.509,301.509,338.4,256,338.4z" />
+                    </svg>
+                </div>
+                <ul>
+                    <li class="{{question.chosen == option ? 'chosen' : ''}}" ng-repeat="option in question.options" ng-click="selectOption(question, option)">
+                        {{option}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+    </article>
+
+    <div class="{{modal ? 'modal' : 'hide'}}">
+        <form>
+            <h4 ng-click="toggleModal({})" class="close">X</h4>
+            <span>Question</span>
+            <input type="text" ng-model="selectedQuestion.question">
+            <span>Animal it's about</span>
+            <input type="text" ng-model="selectedQuestion.animal">
+            <span>Difficulty</span>
+            <div class="range">
+                <input type="range" min="1" max="3" ng-model="selectedQuestion.difficulty">
+
+                <h5>{{selectedQuestion.difficulty === 1 ? 'Easy' : selectedQuestion.difficulty === 2 ? 'Medium' : selectedQuestion.difficulty
+                    === 3 ? 'Hard' : ''}}</h5>
+            </div>
+            <h4>Options</h4>
+            <div>
+                <input type="radio" ng-checked="selectedQuestion.correct_answer === 0" ng-model="selectedQuestion.correct_answer" value="0">
+                <input type="text" ng-model="selectedQuestion.options[0]">
+            </div>
+            <div>
+                <input type="radio" ng-checked="selectedQuestion.correct_answer === 1" ng-model="selectedQuestion.correct_answer" value="1">
+                <input type="text" ng-model="selectedQuestion.options[1]">
+            </div>
+            <div>
+                <input type="radio" ng-checked="selectedQuestion.correct_answer === 2" ng-model="selectedQuestion.correct_answer" value="2">
+                <input type="text" ng-model="selectedQuestion.options[2]">
+            </div>
+            <div>
+                <input type="radio" ng-checked="selectedQuestion.correct_answer === 3" ng-model="selectedQuestion.correct_answer" value="3">
+                <input type="text" ng-model="selectedQuestion.options[3]">
+            </div>
+
+            <!--Add question buttons-->
+            <div class="{{!selectedQuestion._id ? 'buttons' : 'hide'}}">
+                <button class="Easy" ng-click="postQuestion()">Save Question</button>
+                <button ng-click="toggleModal({})">Cancel</button>
+            </div>
+
+            <!--Edit & Delete question buttons-->
+
+            <div class="{{selectedQuestion._id ? 'buttons' : 'hide'}}">
+                <button class="Hard" ng-click="deleteQuestion()">Delete Question</button>
+                <button class="Easy" ng-click="updateQuestion()">Save Changes</button>
+                <button ng-click="toggleModal({})">Cancel</button>
+            </div>
+
+        </form>
+    </div>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js" charset="utf-8"></script>
+    <script src="app.js" charset="utf-8"></script>
+    <script src="home/homeController.js" charset="utf-8"></script>
+    <script src="home/homeService.js" charset="utf-8"></script>
+
+    <script src="optionController.js" charset="utf-8"></script>
+
+    <script>
+        angular.module('trivia', [])
+
+        angular.module('trivia').controller('homeController', function ($scope, homeService) {
+            $scope.test = 'test scope'
+            $scope.myfilter = ''
+            $scope.search = false;
+            $scope.modal = false;
+            $scope.selectedQuestion = {}
+
+
+            console.log('controller')
+            homeService.getQuestions().then(function (questions) {
+                console.log(questions.data)
+                $scope.questions = questions.data
+            })
+
+            $scope.getQuestions = function () {
+                homeService.getQuestions().then(function (questions) {
+                    console.log(questions.data)
+                    $scope.questions = questions.data
+                })
+            }
+
+
+            $scope.selectOption = function (question, option) {
+                console.log(option)
+                console.log(question)
+                question.chosen = option
+                if (option == question.options[question.correct_answer]) {
+                    console.log('true')
+                    question.correct = true
+                    question.class = "Easy"
+                }
+                else {
+                    console.log('false')
+                    question.correct = false
+                    question.class = "Hard"
+                }
+            }
+
+
+            $scope.toggleSearch = function () {
+                console.log($scope.search)
+                $scope.search = !$scope.search
+            }
+
+
+            $scope.toggleModal = function (question) {
+                console.log(question)
+                $scope.modal = !$scope.modal
+                $scope.selectedQuestion = Object.assign({}, question)
+                console.log('it worked')
+                if (!$scope.selectedQuestion || !$scope.selectedQuestion.options) {
+                    console.log('options')
+                    $scope.selectedQuestion.options = []
+                }
+            }
+
+
+            $scope.postQuestion = function () {
+                console.log($scope.selectedQuestion)
+                homeService.postQuestion($scope.selectedQuestion)
+                    .then(response => {
+                        console.log(response.data)
+                        $scope.getQuestions()
+                        $scope.modal = false
+                    })
+            }
+
+            $scope.updateQuestion = function () {
+                console.log($scope.selectedQuestion)
+                homeService.updateQuestion($scope.selectedQuestion)
+                    .then(response => {
+                        console.log(response.data)
+                        $scope.getQuestions()
+                        $scope.modal = false
+                    })
+            }
+
+            $scope.deleteQuestion = function () {
+                console.log($scope.selectedQuestion)
+                homeService.deleteQuestion($scope.selectedQuestion)
+                    .then(response => {
+                        console.log(response.data)
+                        $scope.getQuestions()
+                        $scope.modal = false
+                    })
+            }
+
+
+            $scope.setFilter = function (n) {
+                console.log(n)
+                $scope.myfilter = n
+                if (n) {
+                    homeService.getQuestions().then(response => {
+                        $scope.questions = response.data.filter(q => q.difficulty === n)
+                        console.log($scope.questions)
+                        $scope.questions = $scope.questions
+                    }
+                    )
+                }
+                else {
+                    homeService.getQuestions().then(response => {
+                        $scope.questions = response.data
+                        $scope.questions = $scope.questions
+                    })
+                }
+            }
+        })
+
+        angular.module('trivia').service('homeService', function ($http) {
+            this.getQuestions = function () {
+                return $http({
+                    method: 'GET',
+                    url: `http://localhost:3002/api/questions`
+                })
+            }
+            this.postQuestion = function (question) {
+                return $http({
+                    method: "POST",
+                    url: `http://localhost:3002/api/questions`,
+                    data: JSON.stringify(question)
+                })
+            }
+            this.updateQuestion = function (question) {
+                return $http.put(`http://localhost:3002/api/questions/${question._id}`, question)
+
+            }
+            this.deleteQuestion = function (question) {
+                return $http.delete(`http://localhost:3002/api/questions/${question._id}`, question)
+            }
+        })
+    </script>
+
+</body>
+
+</html>

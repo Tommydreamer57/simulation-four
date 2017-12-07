@@ -56,7 +56,7 @@ app.delete(`/api/questions/:id`, (req, res, next) => {
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'))
+    res.sendFile(path.join(__dirname, '../build/index.html'))
 })
 
 
