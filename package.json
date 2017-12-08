@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Tommydreamer57/simulation-four#readme",
   "dependencies": {
+    "angular": "^1.6.7",
     "ng-factory": "^1.1.0"
-  }
+  },
+  "main": "server/index.js"
 }
