@@ -666,22 +666,22 @@
             this.getQuestions = function () {
                 return $http({
                     method: 'GET',
-                    url: `http://45.55.132.212:3002/api/questions`
+                    url: `https://trivia.thomaslowry.me/api/questions`
                 })
             }
             this.postQuestion = function (question) {
                 return $http({
                     method: "POST",
-                    url: `http://45.55.132.212:3002/api/questions`,
+                    url: `https://trivia.thomaslowry.me/api/questions`,
                     data: JSON.stringify(question)
                 })
             }
             this.updateQuestion = function (question) {
-                return $http.put(`http://45.55.132.212:3002/api/questions/${question._id}`, question)
+                return $http.put(`https://trivia.thomaslowry.me/api/questions/${question._id}`, question)
 
             }
             this.deleteQuestion = function (question) {
-                return $http.delete(`http://45.55.132.212:3002/api/questions/${question._id}`, question)
+                return $http.delete(`https://trivia.thomaslowry.me/api/questions/${question._id}`, question)
             }
         })
     </script>
